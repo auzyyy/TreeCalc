@@ -15,15 +15,17 @@ namespace treeCalc
         List<Node> nodes = new List<Node>();
         List<Path> paths = new List<Path>();
         private int circleDiameter = 25, circleRadius, nodesPlaced;
-        private char[] alphabet = new char[] { 
-            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 
-            'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 
-            'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+        private string[] names = new string[] { 
+            "a", "b", "c", "d", "e", "f", "g", "h", 
+            "i", "j", "k", "l", "m", "n", "o", "p", 
+            "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
         private Node start, end;
+        private Color drawPanelColor = Color.LightBlue;
 
         public Form1()
         {
             InitializeComponent();
+            panel_TreeArea.BackColor = drawPanelColor;
             circleRadius = circleDiameter / 2;
         }
 
@@ -43,6 +45,22 @@ namespace treeCalc
                 {
                     RemoveObject(x, y);
                 }
+            }
+        }
+
+        private void RedrawObjects()
+        {
+            Graphics g = panel_TreeArea.CreateGraphics();
+            g.Clear(drawPanelColor);
+            foreach (Node n in nodes)
+            {
+                DrawNode(n.X, n.Y, n.Name);
+            }
+            foreach (Path p in paths)
+            {
+                Node start = p.StartNode;
+                Node end = p.EndNode;
+                DrawLine(start.X + circleRadius, start.Y + circleRadius, end.X + circleRadius, end.Y + circleRadius);
             }
         }
 
@@ -83,6 +101,7 @@ namespace treeCalc
                 pathsToRemove.Clear();
             }
             nodes.Remove(n);
+            RedrawObjects();
         }
 
         private void AddObject(int x, int y)
@@ -90,33 +109,49 @@ namespace treeCalc
             label_appLabel.Text = "";
             if (NotInsideNode(x, y))
             {
-                start = null;
-                end = null;
-                DrawCirlce(x, y);
-                nodes.Add(new Node(x, y));
-                nodesPlaced++;
+                AddNode(x, y);
             }
             else
             {
-                label_appLabel.Text = "Select another Node to add a path between them";
-                if (start == null)
-                    start = getNode(x, y);
+                AddPath(x, y);
+            }
+        }
+
+        private void AddPath(int x, int y)
+        {
+            DrawMessage("Select another Node to add a path between them");
+            if (start == null)
+                start = getNode(x, y);
+            else
+            {
+                end = getNode(x, y);
+                if (!PathExists(start, end))
+                {
+                    label_appLabel.Text = "";
+                    paths.Add(new Path(start, end, 0));
+                    DrawLine(start.X + circleRadius, start.Y + circleRadius, end.X + circleRadius, end.Y + circleRadius);
+                }
                 else
                 {
-                    end = getNode(x, y);
-                    if (!PathExists(start, end))
-                    {
-                        label_appLabel.Text = "";
-                        paths.Add(new Path(start, end, 0));
-                        DrawLine(start.X + circleRadius, start.Y + circleRadius, end.X + circleRadius, end.Y + circleRadius);
-                    }
-                    else
-                    {
-                        label_appLabel.Text = "Path already exists";
-                    }
-                    start = null;
-                    end = null;
+                    DrawError("Path already exists");
                 }
+                start = null;
+                end = null;
+            }
+        }
+
+        private void AddNode(int x, int y)
+        {
+            start = null;
+            end = null;
+            string nodeName = (nodesPlaced >= names.Length) ? GetUnusedName() : names[nodesPlaced].ToString();
+            if (nodeName == null)
+                DrawError("You have the max number of nodes placed");
+            else
+            {
+                DrawNode(x, y, nodeName);
+                nodes.Add(new Node(x, y, nodeName));
+                nodesPlaced++;
             }
         }
 
@@ -127,17 +162,17 @@ namespace treeCalc
             graphics.DrawLine(new Pen(new SolidBrush(Color.Green)), new Point(x1, y1), new Point(x2, y2));
         }
 
-        private void DrawCirlce(int x, int y)
+        private void DrawNode(int x, int y, string name)
         {
             System.Drawing.Graphics graphics = panel_TreeArea.CreateGraphics();
 
-            string charToDraw = alphabet[nodesPlaced].ToString();
+            string nodeName = name;
             System.Drawing.Font charFont = new System.Drawing.Font("Arial", 12);
 
             System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle(
                x, y, circleDiameter, circleDiameter);
             graphics.DrawEllipse(System.Drawing.Pens.Black, rectangle);
-            graphics.DrawString(charToDraw, charFont, new SolidBrush(Color.Black), new Point(x + 5, y + 2));
+            graphics.DrawString(nodeName, charFont, new SolidBrush(Color.Black), new Point(x + 5, y + 2));
         }
 
         private Node getNode(int x, int y)
@@ -171,6 +206,40 @@ namespace treeCalc
                 doesExist = (paths[i].StartNode == start && paths[i].EndNode == end) || (paths[i].EndNode == start && paths[i].StartNode == end);
             }
             return doesExist;
+        }
+
+        private void button_Clear_Click(object sender, EventArgs e)
+        {
+            nodesPlaced = 0;
+            nodes.Clear();
+            paths.Clear();
+            panel_TreeArea.CreateGraphics().Clear(drawPanelColor);
+        }
+
+        private void DrawError(string text)
+        {
+            label_appLabel.ForeColor = Color.Red;
+            label_appLabel.Text = text;
+        }
+
+        private void DrawMessage(string text)
+        {
+            label_appLabel.ForeColor = Color.Blue;
+            label_appLabel.Text = text;
+        }
+
+        private string GetUnusedName()
+        {
+            string unusedName = null;
+            string[] usedNames = new string[nodes.Count];
+            for (int i = 0; i < usedNames.Length; i++)
+                usedNames[i] = nodes[i].Name;
+
+            for (int i = 0; i < names.Count() && unusedName == null; i++)
+            {
+                unusedName = (usedNames.Contains(names[i])) ? null : names[i];
+            }
+            return unusedName;
         }
     }
 }

@@ -11,11 +11,13 @@ namespace treeCalc
         public int X { get; set; }
         public int Y { get; set; }
         public List<Path> Paths { get; set; }
+        public string Name { get; set; }
 
-        public Node(int x, int y)
+        public Node(int x, int y, string name)
         {
             this.X = x;
             this.Y = y;
+            this.Name = name;
             this.Paths = new List<Path>();
         }
     }
