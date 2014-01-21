@@ -18,5 +18,24 @@ namespace treeCalc
             this.EndNode = endNode;
             this.Weight = weight;
         }
+
+        public override string ToString()
+        {
+            return StartNode.Name + "<--->" + EndNode.Name + "\tWeight = " + Weight;
+        }
+
+        public override bool Equals(object obj)
+        {
+            bool isEqual = false;
+            if (base.Equals(obj))
+            {
+                Path p = obj as Path;
+                if (this.EndNode.Name == p.EndNode.Name && 
+                    this.StartNode.Name == p.StartNode.Name && 
+                    this.Weight == p.Weight)
+                    isEqual = true;
+            }
+            return isEqual;
+        }
     }
 }

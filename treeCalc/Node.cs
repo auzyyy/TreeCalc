@@ -20,5 +20,10 @@ namespace treeCalc
             this.Name = name;
             this.Paths = new List<Path>();
         }
+
+        public override string ToString()
+        {
+            return this.Name;
+        }
     }
 }

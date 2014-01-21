@@ -13,7 +13,7 @@ namespace treeCalc
     public partial class Form1 : Form
     {
         List<Node> nodes = new List<Node>();
-        List<Path> paths = new List<Path>();
+        BindingList<Path> paths = new BindingList<Path>();
         private int circleDiameter = 25, circleRadius, nodesPlaced;
         private string[] names = new string[] { 
             "a", "b", "c", "d", "e", "f", "g", "h", 
@@ -25,6 +25,7 @@ namespace treeCalc
         public Form1()
         {
             InitializeComponent();
+            initListBoxPanel();
             panel_TreeArea.BackColor = drawPanelColor;
             circleRadius = circleDiameter / 2;
         }
@@ -43,7 +44,7 @@ namespace treeCalc
                 DialogResult result = MessageBox.Show("Are you sure you want to delete this node?", "Delete Node", MessageBoxButtons.YesNo);
                 if (result == System.Windows.Forms.DialogResult.Yes)
                 {
-                    RemoveObject(x, y);
+                    RemoveNode(x, y);
                 }
             }
         }
@@ -58,18 +59,30 @@ namespace treeCalc
             }
             foreach (Path p in paths)
             {
-                Node start = p.StartNode;
-                Node end = p.EndNode;
-                DrawLine(start.X + circleRadius, start.Y + circleRadius, end.X + circleRadius, end.Y + circleRadius);
+                DrawPath(p);
             }
         }
 
-        private void AddPath(Node start, Node end)
+        private void DrawPath(Path p)
         {
-
+            Node start = p.StartNode;
+            Node end = p.EndNode;
+            DrawLine(start.X + circleRadius, start.Y + circleRadius, end.X + circleRadius, end.Y + circleRadius);
+            int midX = (start.X + end.X) / 2;
+            int midY = (start.Y + end.Y) / 2;
+            DrawString(p.Weight.ToString(), midX, midY);
         }
 
-        private void RemoveObject(int x, int y)
+        private void RemovePath(Path path)
+        {
+            path.StartNode.Paths.Remove(path);
+            path.EndNode.Paths.Remove(path);
+            paths.Remove(path);
+            listBox_Paths.Items.Remove(path);
+            RedrawObjects();
+        }
+
+        private void RemoveNode(int x, int y)
         {
             Node n = getNode(x, y);
             List<Path> pathsToRemove = new List<Path>();
@@ -83,6 +96,7 @@ namespace treeCalc
             foreach (Path p in pathsToRemove)
             {
                 paths.Remove(p);
+                listBox_Paths.Items.Remove(p);
             }
             pathsToRemove.Clear();
             foreach (Node node in nodes)
@@ -127,9 +141,13 @@ namespace treeCalc
                 end = getNode(x, y);
                 if (!PathExists(start, end))
                 {
+                    Path pathToAdd = new Path(start, end, 0);
+                    start.Paths.Add(pathToAdd);
+                    end.Paths.Add(pathToAdd);
                     label_appLabel.Text = "";
-                    paths.Add(new Path(start, end, 0));
-                    DrawLine(start.X + circleRadius, start.Y + circleRadius, end.X + circleRadius, end.Y + circleRadius);
+                    paths.Add(pathToAdd);
+                    listBox_Paths.Update();
+                    DrawPath(pathToAdd);
                 }
                 else
                 {
@@ -158,21 +176,24 @@ namespace treeCalc
         private void DrawLine(int x1, int y1, int x2, int y2)
         {
             System.Drawing.Graphics graphics = panel_TreeArea.CreateGraphics();
-
             graphics.DrawLine(new Pen(new SolidBrush(Color.Green)), new Point(x1, y1), new Point(x2, y2));
+        }
+
+        private void DrawString(String text, int x, int y)
+        {
+            System.Drawing.Graphics graphics = panel_TreeArea.CreateGraphics();
+            System.Drawing.Font charFont = new System.Drawing.Font("Arial", 12);
+            graphics.DrawString(text, charFont, new SolidBrush(Color.Black), new Point(x, y));
         }
 
         private void DrawNode(int x, int y, string name)
         {
-            System.Drawing.Graphics graphics = panel_TreeArea.CreateGraphics();
-
             string nodeName = name;
-            System.Drawing.Font charFont = new System.Drawing.Font("Arial", 12);
-
+            System.Drawing.Graphics graphics = panel_TreeArea.CreateGraphics();
             System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle(
                x, y, circleDiameter, circleDiameter);
             graphics.DrawEllipse(System.Drawing.Pens.Black, rectangle);
-            graphics.DrawString(nodeName, charFont, new SolidBrush(Color.Black), new Point(x + 5, y + 2));
+            DrawString(nodeName, x + 5, y + 2);
         }
 
         private Node getNode(int x, int y)
@@ -201,6 +222,8 @@ namespace treeCalc
         private bool PathExists(Node start, Node end)
         {
             bool doesExist = false;
+            if (start == end)
+                doesExist = true;
             for (int i = 0; i < paths.Count && !doesExist; i++)
             {
                 doesExist = (paths[i].StartNode == start && paths[i].EndNode == end) || (paths[i].EndNode == start && paths[i].StartNode == end);
@@ -240,6 +263,76 @@ namespace treeCalc
                 unusedName = (usedNames.Contains(names[i])) ? null : names[i];
             }
             return unusedName;
+        }
+
+        private void listBox_Paths_SelectedValueChanged(object sender, EventArgs e)
+        {
+            Path p = listBox_Paths.SelectedItem as Path;
+            initEditPathPanel(p);
+        }
+
+        private void initListBoxPanel()
+        {
+            listBox_Paths.DataSource = paths;
+        }
+
+        private void initEditPathPanel(Path p)
+        {
+            Panel_EditPath.Visible = true;
+            if (p != null)
+            {
+                TextBox_PathWeight.Text = p.Weight.ToString();
+                TextBox_StartNode.Text = p.StartNode.ToString();
+                TextBox_EndNode.Text = p.EndNode.ToString();
+            }
+
+        }
+
+        private void UpdatePath(Path p, double newWeight)
+        {
+            foreach (Node n in nodes)
+            {
+                foreach (Path path in n.Paths)
+                {
+                    if (path.Equals(p))
+                        path.Weight = newWeight;
+                }
+            }
+
+            foreach (Path path in paths)
+            {
+                if (path == p)
+                    path.Weight = newWeight;
+            }
+            UpdatePathsListBox();
+            RedrawObjects();
+        }
+
+        private void UpdatePathsListBox()
+        {
+            listBox_Paths.DataSource = null;
+            listBox_Paths.DataSource = paths;
+        }
+
+        private void Button_DeletePath_Click(object sender, EventArgs e)
+        {
+            Path p = listBox_Paths.SelectedItem as Path;
+            DialogResult result = MessageBox.Show("Are you sure you would like to delete this path?", "Delete Path", MessageBoxButtons.YesNo);
+            if (result == DialogResult.Yes)
+                RemovePath(p);
+        }
+
+        private void Button_SavePath_Click(object sender, EventArgs e)
+        {
+            Path p = listBox_Paths.SelectedItem as Path;
+            try
+            {
+                UpdatePath(p, Double.Parse(TextBox_PathWeight.Text));
+            }
+            catch (FormatException)
+            {
+                DrawError("Not an actual number");
+            }
         }
     }
 }
