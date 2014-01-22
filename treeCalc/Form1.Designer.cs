@@ -1,6 +1,6 @@
 ﻿namespace treeCalc
 {
-    partial class Form1
+    partial class SuperCaliFrajoListicTourOfTheShortnessDohicky
     {
         /// <summary>
         /// Required designer variable.
@@ -36,7 +36,7 @@
             this.label_appLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.solve_btn = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.listBox_Paths = new System.Windows.Forms.ListBox();
             this.label6 = new System.Windows.Forms.Label();
@@ -50,6 +50,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.panel_TreeArea.SuspendLayout();
             this.Panel_EditPath.SuspendLayout();
             this.SuspendLayout();
@@ -129,14 +130,15 @@
             this.comboBox1.TabIndex = 8;
             this.comboBox1.Text = "Select an Algorithm";
             // 
-            // button1
+            // solve_btn
             // 
-            this.button1.Location = new System.Drawing.Point(12, 42);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(121, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Run";
-            this.button1.UseVisualStyleBackColor = true;
+            this.solve_btn.Location = new System.Drawing.Point(12, 42);
+            this.solve_btn.Name = "solve_btn";
+            this.solve_btn.Size = new System.Drawing.Size(121, 23);
+            this.solve_btn.TabIndex = 9;
+            this.solve_btn.Text = "Solve";
+            this.solve_btn.UseVisualStyleBackColor = true;
+            this.solve_btn.Click += new System.EventHandler(this.solve_btn_Click);
             // 
             // label5
             // 
@@ -260,17 +262,27 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "Start Node";
             // 
-            // Form1
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(139, 17);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(96, 13);
+            this.label11.TabIndex = 15;
+            this.label11.Text = "Defaults to Kruskal";
+            // 
+            // SuperCaliFrajoListicTourOfTheShortnessDohicky
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1167, 614);
+            this.Controls.Add(this.label11);
             this.Controls.Add(this.Panel_EditPath);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.listBox_Paths);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.solve_btn);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label_appLabel);
@@ -278,8 +290,8 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "SuperCaliFrajoListicTourOfTheShortnessDohicky";
+            this.Text = "SuperCaliFrajoListicTourOfTheShortnessDohicky";
             this.panel_TreeArea.ResumeLayout(false);
             this.Panel_EditPath.ResumeLayout(false);
             this.Panel_EditPath.PerformLayout();
@@ -298,7 +310,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button button_Clear;
         private System.Windows.Forms.ComboBox comboBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button solve_btn;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox listBox_Paths;
         private System.Windows.Forms.Label label6;
@@ -312,6 +324,7 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label11;
     }
 }
 

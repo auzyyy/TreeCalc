@@ -6,18 +6,27 @@ using System.Threading.Tasks;
 
 namespace treeCalc
 {
-    class Path
+    public class Path
     {
+
+        #region Public Properties
+
         public Node StartNode { get; set; }
         public Node EndNode { get; set; }
-        public double Weight { get; set; }
+        public int Weight { get; set; }
 
-        public Path(Node startNode, Node endNode, double weight)
+        #endregion
+
+        #region Constructor
+
+        public Path(Node startNode, Node endNode, int weight)
         {
             this.StartNode = startNode;
             this.EndNode = endNode;
             this.Weight = weight;
         }
+
+        #endregion
 
         public override string ToString()
         {
