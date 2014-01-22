@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace treeCalc
 {
-    class Path
+    public class Path
     {
 
         #region Public Properties

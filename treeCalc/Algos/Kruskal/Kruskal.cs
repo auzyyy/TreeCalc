@@ -7,7 +7,7 @@ namespace treeCalc.Algos
     {
         #region IKruskal
 
-        IList<Path> IKruskal.Solve(IList<Path> graph, out int totalCost)
+        public IList<Path> Solve(IList<Path> graph, out int totalCost)
         {
             QuickSort(graph, 0, graph.Count - 1);
             IList<Path> solvedGraph = new List<Path>();
@@ -31,27 +31,27 @@ namespace treeCalc.Algos
         #endregion
 
         #region Private Methods
-        private void QuickSort(IList<Node> graph, int left, int right)
+        private void QuickSort(IList<Path> graph, int left, int right)
         {
             int i, j, x;
             i = left; j = right;
-            x = graph[(left + right) / 2].Cost;
+            x = graph[(left + right) / 2].Weight;
 
             do
             {
-                while ((graph[i].Cost < x) && (i < right))
+                while ((graph[i].Weight < x) && (i < right))
                 {
                     i++;
                 }
 
-                while ((x < graph[j].Cost) && (j > left))
+                while ((x < graph[j].Weight) && (j > left))
                 {
                     j--;
                 }
 
                 if (i <= j)
                 {
-                    Node y = graph[i];
+                    Path y = graph[i];
                     graph[i] = graph[j];
                     graph[j] = y;
                     i++;

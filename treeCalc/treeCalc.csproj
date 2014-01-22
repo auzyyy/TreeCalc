@@ -44,8 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algos\IKruskal.cs" />
-    <Compile Include="Algos\Kruskal.cs" />
+    <Compile Include="Algos\Kruskal\IKruskal.cs" />
+    <Compile Include="Algos\Kruskal\Kruskal.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace treeCalc
 {
-    class Node
+    public class Node
     {
         #region Public Properties
 
         // Why not use System.Drawing; to get a Point(x,y) ?
         public int X { get; set; }
         public int Y { get; set; }
-        public List<Path> Paths { get; set; }
+        //public List<Path> Paths { get; set; }
         public string Name { get; set; }
         public int Rank { get; set; }
         public Node Root { get; set; }
