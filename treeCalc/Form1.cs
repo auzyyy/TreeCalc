@@ -318,14 +318,14 @@ namespace treeCalc
         private void UpdatePath(Path p, int newWeight)
         {
             label_appLabel.Text = "";
-            foreach (Node n in nodes)
-            {
-                foreach (Path path in n.Paths)
-                {
-                    if (path.Equals(p))
-                        path.Weight = newWeight;
-                }
-            }
+            //foreach (Node n in nodes)
+            //{
+            //    foreach (Path path in n.Paths)
+            //    {
+            //        if (path.Equals(p))
+            //            path.Weight = newWeight;
+            //    }
+            //}
 
             foreach (Path path in paths)
             {
