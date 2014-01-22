@@ -290,6 +290,7 @@ namespace treeCalc
 
         private void UpdatePath(Path p, double newWeight)
         {
+            label_appLabel.Text = "";
             foreach (Node n in nodes)
             {
                 foreach (Path path in n.Paths)
