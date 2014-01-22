@@ -10,25 +10,39 @@ using System.Windows.Forms;
 
 namespace treeCalc
 {
-    public partial class Form1 : Form
+    public partial class SuperCaliFrajoListicTourOfTheShortnessDohicky : Form
     {
+
+        #region Members
         List<Node> nodes = new List<Node>();
         BindingList<Path> paths = new BindingList<Path>();
+
         private int circleDiameter = 25, circleRadius, nodesPlaced;
+        
+        // I'm just saying, which looks better?
+        private string[] alphabet = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z".Split(',');
         private string[] names = new string[] { 
             "a", "b", "c", "d", "e", "f", "g", "h", 
             "i", "j", "k", "l", "m", "n", "o", "p", 
             "q", "r", "s", "t", "u", "v", "w", "x", "y", "z" };
+        
         private Node start, end;
         private Color drawPanelColor = Color.LightBlue;
 
-        public Form1()
+        #endregion
+
+        #region Constructor
+        public SuperCaliFrajoListicTourOfTheShortnessDohicky()
         {
             InitializeComponent();
             initListBoxPanel();
             panel_TreeArea.BackColor = drawPanelColor;
             circleRadius = circleDiameter / 2;
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void panel_TreeArea_Click(object sender, EventArgs e)
         {
@@ -334,5 +348,23 @@ namespace treeCalc
                 DrawError("Not an actual number");
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedText.Equals("Kruskal"))
+            {
+
+            }
+            else if (comboBox1.SelectedText.Equals("Prim"))
+            {
+
+            }
+            else
+            {
+                throw new Exception("what the hell just happened?");
+            }
+        }
+
+        #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace treeCalc
 {
-    partial class Form1
+    partial class SuperCaliFrajoListicTourOfTheShortnessDohicky
     {
         /// <summary>
         /// Required designer variable.
@@ -137,6 +137,7 @@
             this.button1.TabIndex = 9;
             this.button1.Text = "Run";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // label5
             // 
@@ -260,7 +261,7 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "Start Node";
             // 
-            // Form1
+            // SuperCaliFrajoListicTourOfTheShortnessDohicky
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -278,8 +279,8 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "SuperCaliFrajoListicTourOfTheShortnessDohicky";
+            this.Text = "SuperCaliFrajoListicTourOfTheShortnessDohicky";
             this.panel_TreeArea.ResumeLayout(false);
             this.Panel_EditPath.ResumeLayout(false);
             this.Panel_EditPath.PerformLayout();
