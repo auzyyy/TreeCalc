@@ -379,11 +379,11 @@ namespace treeCalc
 
         private void solve_btn_Click(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedText.Equals("Prim"))
+            if (comboBox1.Text.Equals("Prim"))
             {
                 Prim prim = new Prim();
                 int totalCost;
-                prim.Solve(graph, out totalCost);
+                graphSolved = prim.Solve(graph, nodes, out totalCost);
                 MessageBox.Show("Total Cost: " + totalCost.ToString(), "Solution", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 isSolved = true;
                 RedrawObjects();
