@@ -346,7 +346,6 @@ namespace treeCalc
 
         #region Buttons
 
-
         private void Button_DeletePath_Click(object sender, EventArgs e)
         {
             Path p = listBox_Paths.SelectedItem as Path;
@@ -382,7 +381,12 @@ namespace treeCalc
         {
             if (comboBox1.SelectedText.Equals("Prim"))
             {
-
+                Prim prim = new Prim();
+                int totalCost;
+                prim.Solve(graph, out totalCost);
+                MessageBox.Show("Total Cost: " + totalCost.ToString(), "Solution", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                isSolved = true;
+                RedrawObjects();
             }
 
             else// (comboBox1.SelectedText.Equals("Kruskal"))
@@ -397,7 +401,40 @@ namespace treeCalc
             }
         }
 
+        private void btnDefaultGraph_Click(object sender, EventArgs e)
+        {
+            // Add some shit to the gui
+            AddObject(50, 50);
+            AddObject(300, 50);
+            AddObject(50, 200);
+            AddObject(300, 200);
+            // Add some more shit to the previous shit
+            // A-B
+            AddObject(50, 50);
+            AddObject(300, 50);
+            // B-C
+            AddObject(300, 50);
+            AddObject(50, 200);
+            // C-D
+            AddObject(50, 200);
+            AddObject(300, 200);
+            // A-C
+            AddObject(50, 50);
+            AddObject(50, 200);
+            // B-D
+            AddObject(300, 50);
+            AddObject(300, 200);
+
+            // Add some shit, to the shit, that's on the shit
+            int multi = 5;
+            for(int i=0;i<paths.Count();i++)
+                paths[i].Weight = multi * i;
+            UpdatePathsListBox();
+            RedrawObjects();
+        }
+
         #endregion // Buttons
+
         #endregion
 
     }

@@ -51,6 +51,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.btnDefaultGraph = new System.Windows.Forms.Button();
             this.panel_TreeArea.SuspendLayout();
             this.Panel_EditPath.SuspendLayout();
             this.SuspendLayout();
@@ -86,6 +87,7 @@
             // 
             this.panel_TreeArea.BackColor = System.Drawing.Color.RoyalBlue;
             this.panel_TreeArea.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panel_TreeArea.Controls.Add(this.btnDefaultGraph);
             this.panel_TreeArea.Controls.Add(this.button_Clear);
             this.panel_TreeArea.Location = new System.Drawing.Point(365, 12);
             this.panel_TreeArea.Name = "panel_TreeArea";
@@ -274,6 +276,16 @@
             this.label11.TabIndex = 15;
             this.label11.Text = "Defaults to Kruskal";
             // 
+            // btnDefaultGraph
+            // 
+            this.btnDefaultGraph.Location = new System.Drawing.Point(436, -2);
+            this.btnDefaultGraph.Name = "btnDefaultGraph";
+            this.btnDefaultGraph.Size = new System.Drawing.Size(123, 23);
+            this.btnDefaultGraph.TabIndex = 16;
+            this.btnDefaultGraph.Text = "Add Default Graph";
+            this.btnDefaultGraph.UseVisualStyleBackColor = true;
+            this.btnDefaultGraph.Click += new System.EventHandler(this.btnDefaultGraph_Click);
+            // 
             // SuperCaliFrajoListicTourOfTheShortnessDohicky
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -328,6 +340,7 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Button btnDefaultGraph;
     }
 }
 
